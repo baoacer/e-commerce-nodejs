@@ -1,5 +1,14 @@
 const JWT = require('jsonwebtoken');
 
+
+/**
+ * Tạo cặp token (AccessToken và RefreshToken) từ payload.
+ *
+ * @param {Object} payload - Dữ liệu cần mã hóa trong token.
+ * @param {string} publicKey - Khóa công khai để xác thực token.
+ * @param {string} privateKey - Khóa riêng để ký token.
+ * @returns {Promise<Object>} - Một promise trả về đối tượng chứa accessToken và refreshToken.
+ */
 const createTokenPair = async ( payload, publicKey, privateKey ) => {
     try {
         //AccessToken

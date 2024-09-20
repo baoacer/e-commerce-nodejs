@@ -8,13 +8,14 @@ const { default: mongoose } = require("mongoose");
 const os = require('os');
 const process = require('process');
 const _SECOND = 5000;
-// Count Connect
+
+// Hàm đếm số lượng kết nối hiện tại tới database MongoDB
 const countConnect = () => {
     const countConnect = mongoose.connections.length;    
     console.log(`Count Connect::${countConnect}`);
 }
 
-// check overload
+// Hàm kiểm tra quá tải
 const checkOverload = () => {
     setInterval(() => {
         const numConnections = mongoose.connections.length;

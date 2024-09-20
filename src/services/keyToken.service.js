@@ -3,9 +3,18 @@
 const keyTokenModel = require("../models/keyToken.model")
 
 /*
-    Service xử lý logic liên quan đến token 
+    KeyTokenService: quản lý token 
 */
+
 class KeyTokenService{
+
+    /**
+     * Tạo token mới cho người dùng.
+     * 
+     * @param {string} userId - ID của người dùng.
+     * @param {string} publicKey - Được lưu trong database && giải mã privateKey
+     * @returns {string|null} - Trả về publicKey nếu thành công, ngược lại trả về null.
+     */
     static createKeyToken = async ( { userId, publicKey} ) => {
         try {
             const publicKeyString = publicKey.toString()

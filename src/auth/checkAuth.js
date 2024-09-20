@@ -10,7 +10,7 @@ const HEADER = {
 
 /*
     - Middleware để kiểm tra API key có trong request header hay không
-    - Middleware này sẽ chặn các yêu cầu không hợp lệ nếu không có API key hợp lệ
+    - Middleware này sẽ chặn các yêu cầu không hợp lệ nếu không có API key && Permisstions hợp lệ
 */
 
 /**
@@ -43,6 +43,14 @@ const apiKey = async (req, res, next) => {
     }
 }
 
+/**
+ * Kiểm tra quyền truy cập có hợp lệ?
+ * @param {Object} permission - Quyền truy cập từ objKey được add vào header khi xác thực APIKEY
+ * @param {Object} req - Request object từ client
+ * @param {Object} res - Response object để gửi phản hồi tới client
+ * @param {Function} next - Hàm callback để tiếp tục xử lý các middleware khác hoặc function tiếp theo
+ * @returns {Object} - Trả về response lỗi 403 nếu không có quyền || không hợp lệ
+ *  */ 
 const permission = (permission) => (req, res, next) => {
     if (!req.objKey?.permisstions) {
         return res.status(403).json({ message: 'Forbidden Error' });
@@ -55,6 +63,17 @@ const permission = (permission) => (req, res, next) => {
     next();
 };
 
+/**
+ * Xử lý các route handler.
+ * 
+ * @param {*} fn - Function middleware
+ * @returns 
+ */
+const asyncHandler = (fn) => (req, res, next) => {
+    fn(req, res, next).catch(next);
+}
+
+
 module.exports = {
-    apiKey, permission
+    apiKey, permission, asyncHandler
 }

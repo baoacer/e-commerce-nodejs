@@ -1,19 +1,18 @@
-'use strict'
+"use strict";
 
-const AccessService = require('../services/access.service')
+const { Create } = require("../core/success.response");
+const AccessService = require("../services/access.service");
 
-/*
-    Controller: Quản lý các Rest truy cập signin, signup...
-*/
+/**
+    AccessController xử lý các yêu cầu liên quan đến truy cập của người dùng.
+ */
 class AccessController {
-    signUp = async (req, res, next) => {
-        try {
-            console.log(`[P]::signUp::`, req.body)
-            return res.status(201).json(await AccessService.signUp(req.body));
-        } catch (error) {
-            console.log(`Error:: ${error}`)
-        }
-    }
+  signUp = async (req, res, next) => {
+    new Create({
+      message: 'Registered OK!',
+      metadata: await AccessService.signUp(req.body)
+    }).send(res)
+  };
 }
 
-module.exports = new AccessController()
+module.exports = new AccessController();
