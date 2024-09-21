@@ -7,3 +7,7 @@ const findByEmail = async ({ email, select = {
 } }) => {
     return await shopModel.findOne({ email }).select(select).lean() // call default 'select'
 }
+
+module.exports = {
+    findByEmail
+}
