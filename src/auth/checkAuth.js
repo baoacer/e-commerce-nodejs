@@ -63,17 +63,6 @@ const permission = (permission) => (req, res, next) => {
     next();
 };
 
-/**
- * Xử lý các route handler.
- * 
- * @param {*} fn - Function middleware
- * @returns 
- */
-const asyncHandler = (fn) => (req, res, next) => {
-    fn(req, res, next).catch(next);
-}
-
-
 module.exports = {
-    apiKey, permission, asyncHandler
+    apiKey, permission
 }

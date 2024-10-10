@@ -20,3 +20,8 @@ x-api-key: 6e08051fb49c6aab2aeaa2d64c7619d7ee8d031cc8c7707c257c32c54fca7fd2badf6
     "email": "shopdev2@gmail.com",
     "password": "root"
 }
+
+POST {{url_dev}}/shop/logout
+Content-Type: application/json
+x-api-key: 6e08051fb49c6aab2aeaa2d64c7619d7ee8d031cc8c7707c257c32c54fca7fd2badf630dd3e645f0b8e51424c12397ee221d067535c3dfd590d4b2b407c8e862
+x-client-id: 66ee0ad86a8929b584ecd87c

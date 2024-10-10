@@ -1,9 +1,10 @@
 'use strict'
 
 const keyTokenModel = require("../models/keyToken.model")
+const { Types } = require('mongoose')
 
 /*
-    KeyTokenService: quản lý token 
+    KeyTokenService: quản lý token của user
 */
 
 class KeyTokenService{
@@ -26,8 +27,7 @@ class KeyTokenService{
                     publicKey: publicKeyString,
                 })
             */
-
-            
+   
             /**
              * level xxx
              * 
@@ -46,6 +46,57 @@ class KeyTokenService{
         } catch (error) {
             return error
         }
+    }
+
+    /**
+     * Tìm token theo userId
+     * 
+     * @param {*} userId 
+     * @returns 
+     */
+    static findByUserId = async ( userId ) => {
+        return await keyTokenModel.findOne({ user: new Types.ObjectId(String(userId)) })
+    }
+
+    /**
+     * Xóa token theo keyId
+     * 
+     * @param {*} keyId 
+     * @returns 
+     */
+    static removeKeyById = async ( keyId ) => {
+        const resutl = await keyTokenModel.deleteOne({ _id: new Types.ObjectId(String(keyId)) }).lean()
+        return resutl;
+    }
+
+    /**
+     * Tìm kiếm refreshToken trong refreshTokensUsed
+     * 
+     * @param {*} refreshToken 
+     * @returns 
+     */
+    static findByRefreshTokenUsed = async ( refreshToken ) => {
+        return await keyTokenModel.findOne({ refreshTokensUsed: refreshToken }).lean()
+    }
+
+    /**
+     * Tìm kiếm refreshToken
+     * 
+     * @param {*} refreshToken 
+     * @returns 
+     */
+    static findByRefreshToken = async ( refreshToken ) => {
+        return await keyTokenModel.findOne({ refreshToken: refreshToken })
+    }
+
+    /**
+     * Xóa token theo userId
+     * 
+     * @param {*} userId 
+     * @returns 
+     */
+    static deleteKeyById = async ( userId ) => {
+        return await keyTokenModel.deleteOne({ user: new Types.ObjectId(String(userId)) }).lean()
     }
 }
 
