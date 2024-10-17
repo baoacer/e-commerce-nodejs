@@ -3,12 +3,6 @@
 const _ = require('lodash')
 
 
-/*
-    Response Data
-    getInfoData: Hàm lấy thông tin từ một đối tượng dựa trên các trường đã chỉ định.
-*/
-
-
 /**
  * Lấy thông tin từ một đối tượng theo các trường cụ thể.
  * 
@@ -21,6 +15,63 @@ const getInfoData = ({ fields = [], object = {} }) => {
     return _.pick(object, fields)
 }
 
+
+/**
+ * 
+ * @desc Convert array to object. 
+ * ['a', 'b'] => { a: 1, b: 1 } 
+ */
+const getSelectData = ( select = [] ) => {
+    return Object.fromEntries(select.map(item => [item, 1]))
+}
+
+// ['a', 'b'] => { a: 0, b: 0 } 
+const unGetSelectData = ( select = [] ) => {
+    return Object.fromEntries(select.map(item => [item, 0]))
+}
+
+const removeUndifineObject = (obj) => {
+    Object.keys(obj).forEach( key => {
+        if(obj[key] === null || obj[key] === undefined)
+             delete obj[key]
+    })
+    return obj
+}
+
+/**
+ * const a = {
+        c: {
+            d: 1
+            e: 2
+        }
+    }
+
+    db.collection.updateOne({
+        'c.d': 1
+        'c.e': 2
+    })
+ * 
+ */
+const updateNestedObjectParser = obj => {
+    const final = {}
+    Object.keys(obj).forEach( k => {
+        if( typeof obj[k] === 'object' && !Array.isArray(obj[k]) ) {
+            const response = updateNestedObjectParser(obj[k])
+            Object.keys(response).forEach( a => {
+                final[`${k}.${a}`] = response[a]
+            })
+        }else{
+            final[k] = obj[k]
+        }
+    })
+
+    return final
+}
+
 module.exports = {
-    getInfoData
+    getInfoData,
+    getSelectData,
+    unGetSelectData,
+    removeUndifineObject,
+    updateNestedObjectParser
 }
